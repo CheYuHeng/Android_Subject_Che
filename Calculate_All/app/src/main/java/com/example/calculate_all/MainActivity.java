@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button clear = (Button) findViewById(R.id.clear);
         Button equals = (Button) findViewById(R.id.equals);
-        Button del = (Button) findViewById(R.id.del);
         Button left = (Button) findViewById(R.id.left);
         Button right = (Button) findViewById(R.id.right);
 
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         clear.setOnClickListener(this);
         equals.setOnClickListener(this);
-        del.setOnClickListener(this);
         left.setOnClickListener(this);
         right.setOnClickListener(this);
 
@@ -143,8 +141,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v){                //事件的处理函数
 
-
-        String key_value = "";
         String str = result.getText().toString();
         switch(v.getId()){
             case R.id.zero:
@@ -227,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.clear:
                     clear_flag();
                     break;
-                case R.id.del:
                 case R.id.sin:
                     double a = Math.toRadians(Double.parseDouble(result.getText().toString()));
                     result.setText(String.valueOf(Math.sin(a)));
@@ -316,16 +311,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public String start(String cource){
         chars.push('#');
-        for(int i = 0; i<cource.length();) {
-            if(isChar(cource.charAt(i))){//如果这是运算符
+        for(int i = 0; i < cource.length();) {
+            if(isChar(cource.charAt(i))){     //如果这是运算符
                 doChar(cource.charAt(i));
                 i ++;
-            }else{//如果这是数字
-                StringBuffer temp = new StringBuffer();
-                while(i < cource.length() && !isChar(cource.charAt(i))){//对数字进行拼接
-                    temp.append(cource.charAt(i));
-                    i ++;
-                }
+            }else{                            //如果这是数字
+                    StringBuffer temp = new StringBuffer();
+                    while(i < cource.length() && !isChar(cource.charAt(i))){    //对数字进行拼接
+                        temp.append(cource.charAt(i));
+                        i ++;
+                    }
                 doNum(temp);
             }
         }
@@ -340,12 +335,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return true;
     }
-    public void doChar(char operation){//遇到运算符时的处理
+
+    public void doChar(char operation){    //遇到运算符时的处理
         if(chars.peek() == '('){
             chars.push(operation);
             return;
         }
-        if(operation == ')'){//遇到了')'把'('之后的所有元素出栈
+        if(operation == ')'){              //遇到了')'把'('之后的所有元素出栈
             while(!chars.isEmpty() && chars.peek() != '('){
                 doCalculation(chars.pop());
             }
@@ -361,15 +357,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             chars.push(operation);
         }
     }
+
     public void doNum(StringBuffer num){//遇到数字时的处理
         out.push(num);
     }
-    public void outStack(){//在表达式的最后，所有元素都要出栈
-        while(!chars.isEmpty()&&chars.peek() != '#'){//每出一个运算符都要进行一次运算
+
+    public void outStack(){                           //在表达式的最后，所有元素都要出栈
+        while(!chars.isEmpty()&&chars.peek() != '#'){ //每出一个运算符都要进行一次运算
             doCalculation(chars.pop());
         }
     }
-    public void doCalculation(char chars){//将两个数值取出进行运算，并将结果重新放入到栈中
+
+    public void doCalculation(char chars){            //将两个数值取出进行运算，并将结果重新放入到栈中
         double b = Double.parseDouble(out.pop().toString());
         double a = Double.parseDouble(out.pop().toString());
         double c = 0;
@@ -392,6 +391,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
     public int operationLv(char operation){//设定运算符的优先级
         switch (operation){
             case '+':

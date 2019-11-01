@@ -24,25 +24,32 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
+            android:id="@+id/Help"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="帮助文档"/>
+        <Button
             android:id="@+id/clear"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="C"/>
+        <Button
+            android:id="@+id/equals"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="="/>
         <!--            android:background="#307Dee"-->
 
-        <Button
-            android:id="@+id/del"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="DEL"/>
-        <Button
-            android:id="@+id/div"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="/"/>
+<!--        <Button-->
+<!--            android:id="@+id/del"-->
+<!--            android:layout_width="0dip"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="DEL"/>-->
+
         <Button
             android:id="@+id/mul"
             android:layout_width="0dip"
@@ -161,11 +168,12 @@
             android:layout_weight="1"
             android:text=")"/>
         <Button
-            android:id="@+id/equals"
+            android:id="@+id/div"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="="/>
+            android:text="/"/>
+
         <!--            android:background="#F07D22"-->
 
     </LinearLayout>
@@ -222,11 +230,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="0dp">
-        <Button
-            android:id="@+id/Help"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="帮助文档"/>
+
     </LinearLayout>
 </LinearLayout>
