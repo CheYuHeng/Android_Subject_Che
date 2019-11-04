@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
-public class JinZhiActivity extends AppCompatActivity  implements View.OnClickListener{
+public class JinZhiActivity extends AppCompatActivity implements View.OnClickListener{
 
     EditText result_02;
     EditText result_08;
@@ -76,6 +76,7 @@ public class JinZhiActivity extends AppCompatActivity  implements View.OnClickLi
         Button Main = (Button) findViewById(R.id.Main);
         Button Length = (Button) findViewById(R.id.Length);
         Button Volume = (Button) findViewById(R.id.Volume);
+        Button Help = (Button) findViewById(R.id.Help);
 
         zero.setOnClickListener(this);
         one.setOnClickListener(this);
@@ -106,6 +107,7 @@ public class JinZhiActivity extends AppCompatActivity  implements View.OnClickLi
         Main.setOnClickListener(to_Main);
         Length.setOnClickListener(to_Length);
         Volume.setOnClickListener(to_Volume);
+        Help.setOnClickListener(to_Help);
     }
 
     Button.OnClickListener to_Main = new Button.OnClickListener(){
@@ -127,6 +129,14 @@ public class JinZhiActivity extends AppCompatActivity  implements View.OnClickLi
     Button.OnClickListener to_Volume = new Button.OnClickListener(){
         public void onClick(View v){
             Intent intent = new Intent(JinZhiActivity.this,VolumeActivity.class);
+            startActivity(intent);
+            JinZhiActivity.this.finish();
+        }
+    };
+
+    Button.OnClickListener to_Help = new Button.OnClickListener(){
+        public void onClick(View v){
+            Intent intent = new Intent(JinZhiActivity.this,HelpActivity.class);
             startActivity(intent);
             JinZhiActivity.this.finish();
         }

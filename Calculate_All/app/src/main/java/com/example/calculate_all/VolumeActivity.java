@@ -66,6 +66,7 @@ public class VolumeActivity extends AppCompatActivity implements View.OnClickLis
         Button Jinzhi = (Button) findViewById(R.id.JinZhi);
         Button Length = (Button) findViewById(R.id.Length);
         Button Main = (Button) findViewById(R.id.Main);
+        Button Help = (Button) findViewById(R.id.Help);
 
         zero.setOnClickListener(this);
         one.setOnClickListener(this);
@@ -89,6 +90,7 @@ public class VolumeActivity extends AppCompatActivity implements View.OnClickLis
         Jinzhi.setOnClickListener(to_Jinzhi);
         Length.setOnClickListener(to_Length);
         Main.setOnClickListener(to_Main);
+        Help.setOnClickListener(to_Help);
     }
 
     Button.OnClickListener to_Jinzhi = new Button.OnClickListener(){
@@ -110,6 +112,14 @@ public class VolumeActivity extends AppCompatActivity implements View.OnClickLis
     Button.OnClickListener to_Main = new Button.OnClickListener(){
         public void onClick(View v){
             Intent intent = new Intent(VolumeActivity.this,MainActivity.class);
+            startActivity(intent);
+            VolumeActivity.this.finish();
+        }
+    };
+
+    Button.OnClickListener to_Help = new Button.OnClickListener(){
+        public void onClick(View v){
+            Intent intent = new Intent(VolumeActivity.this,HelpActivity.class);
             startActivity(intent);
             VolumeActivity.this.finish();
         }

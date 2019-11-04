@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button Jinzhi = (Button) findViewById(R.id.JinZhi);
         Button Length = (Button) findViewById(R.id.Length);
         Button Volume = (Button) findViewById(R.id.Volume);
+        Button Help = (Button) findViewById(R.id.Help);
 
         zero.setOnClickListener(this);                   //主程序回调
         one.setOnClickListener(this);
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Jinzhi.setOnClickListener(to_Jinzhi);
         Length.setOnClickListener(to_Length);
         Volume.setOnClickListener(to_Volume);
+        Help.setOnClickListener(to_Help);
     }
 
     Button.OnClickListener to_Jinzhi = new Button.OnClickListener(){
@@ -133,6 +135,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button.OnClickListener to_Volume = new Button.OnClickListener(){
         public void onClick(View v){
             Intent intent = new Intent(MainActivity.this,VolumeActivity.class);
+            startActivity(intent);
+            MainActivity.this.finish();
+        }
+    };
+
+    Button.OnClickListener to_Help = new Button.OnClickListener(){
+        public void onClick(View v){
+            Intent intent = new Intent(MainActivity.this,HelpActivity.class);
             startActivity(intent);
             MainActivity.this.finish();
         }
