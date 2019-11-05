@@ -38,5 +38,23 @@ public class RecordAdapter extends BaseAdapter {
         return position;
     }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder vh;
+        if(convertView == null){
+            vh=new ViewHolder();
+            convertView=inflater.inflate(R.layout.list_view,null);
+            vh.tv1=(TextView) convertView.findViewById(R.id.list_title);
+            vh.tv2=(TextView) convertView.findViewById(R.id.list_time);
+            convertView.setTag(vh);
+        }
+        vh=(ViewHolder) convertView.getTag();
+        vh.tv1.setText(arrlist.get(position).getTitle());
+        vh.tv2.setText(arrlist.get(position).getTimes());
+        return convertView;
+    }
 
+    class ViewHolder{     //内部类，对控件进行缓存
+        TextView tv1,tv2;
+    }
 }
