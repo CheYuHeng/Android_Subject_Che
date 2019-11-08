@@ -8,6 +8,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top|center_horizontal"
+            android:hint="请在此输入查询内容"
+            android:textColorHint="#CC180B" />
         <ListView
             android:id="@+id/layout_listview"
             android:layout_width="match_parent"

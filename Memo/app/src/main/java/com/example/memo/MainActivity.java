@@ -6,16 +6,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import bean.Record;
 import database.RecordAdapter;
@@ -24,12 +29,11 @@ import database.RecordDataBase;
 public class MainActivity extends AppCompatActivity{
 
     ListView listView;
-//    FloatingActionButton floatingActionButton;
     LayoutInflater layoutInflater;
     ArrayList<Record> arrayList;
     RecordDataBase rdDatabase;
     RecordAdapter adapter;
-
+    EditText search;
     Button newRecord;
 
     @Override
@@ -44,10 +48,14 @@ public class MainActivity extends AppCompatActivity{
         newRecord = (Button) findViewById(R.id.new_record);
         layoutInflater = getLayoutInflater();
 
+        search = (EditText) findViewById(R.id.search);
+
         rdDatabase = new RecordDataBase(this);
         arrayList = rdDatabase.getArray();
         adapter = new RecordAdapter(getApplicationContext(), arrayList);
         listView.setAdapter(adapter);
+
+        search.addTextChangedListener(new result());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {   //点击一下跳转到编辑页面（编辑页面与新建页面共用一个布局）
             @Override
@@ -128,6 +136,55 @@ public class MainActivity extends AppCompatActivity{
         return  true;
     }
 
+
+    class result implements TextWatcher{
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+            // TODO Auto-generated method stub
+            String aa = s.toString();
+            Pattern p = Pattern.compile(aa);
+            ArrayList<Record> we = new ArrayList<Record>();
+            for(int i = 0; i < arrayList.size(); i ++){
+                Record record = arrayList.get(i);
+                Matcher matcher = p.matcher(record.getTitle() + record.getTimes());
+                if(matcher.find()){
+                    we.add(record);
+                }
+            }
+
+            listView = (ListView) findViewById(R.id.layout_listview);
+            listView.setAdapter(adapter);
+
+            arrayList = rdDatabase.getArray();
+
+            adapter = new RecordAdapter(getApplicationContext(), we);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {   //点击一下跳转到编辑页面（编辑页面与新建页面共用一个布局）
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(getApplicationContext(),New_Record.class);
+                    intent.putExtra("num",arrayList.get(position).getNum());
+                    startActivity(intent);
+                    MainActivity.this.finish();
+                }
+            });
+
+        }
+    }
 
 
 }

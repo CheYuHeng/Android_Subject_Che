@@ -116,27 +116,4 @@ public class New_Record extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.new_lo,menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.new_share :
-//                Intent intent=new Intent(Intent.ACTION_SEND);
-//                intent.setType("text/plain");
-//                intent.putExtra(Intent.EXTRA_TEXT,
-//                        "标题："+ed_title.getText().toString()+"    " +
-//                                "内容："+ed_content.getText().toString());
-//                startActivity(intent);
-//                break;
-//            default:
-//                break;
-//        }
-//        return false;
-//    }
-
 }

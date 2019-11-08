@@ -6,10 +6,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <fragment
-        android:id="@+id/list_title"
-        android:name="fragment.TitleFragment"
+
+<!--    <fragment-->
+<!--        android:id="@+id/list_title"-->
+<!--        android:name="fragment.TitleFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1"/>-->
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top|center_horizontal"
+            android:hint="请在此输入查询内容"
+            android:textColorHint="#CC180B" />
+        <ListView
+            android:id="@+id/layout_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+        <Button
+            android:id="@+id/new_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:text="新建备忘录"
+            />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
