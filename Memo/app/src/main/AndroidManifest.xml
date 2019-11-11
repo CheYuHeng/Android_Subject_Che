@@ -10,12 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="bean.RecordProvider"
             android:authorities="com.example.memo.provider"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true">
+        </provider>
 
         <activity android:name=".New_Record" />
         <activity android:name=".MainActivity">

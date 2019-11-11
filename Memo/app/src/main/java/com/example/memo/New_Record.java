@@ -56,8 +56,7 @@ public class New_Record extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                isSave();
-                onBackPressed();
+                isSave();
             }
         });
 
@@ -70,7 +69,7 @@ public class New_Record extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {     //重写返回建方法，如果是属于新建则插入数据表并返回主页面，如果是修改，修改表中数据并返回主页面
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd   HH:mm");
         Date date = new Date(System.currentTimeMillis());
         String time = simpleDateFormat.format(date);
@@ -83,7 +82,31 @@ public class New_Record extends AppCompatActivity {
             startActivity(intent);
             New_Record.this.finish();
         }
-        //新建记录
+        //新建日记
+        else{
+            record = new Record(title,content,time);
+            rdDatabase.toInsert(record);
+            Intent intent=new Intent(New_Record.this,MainActivity.class);
+            startActivity(intent);
+            New_Record.this.finish();
+        }
+    }
+
+    private void isSave(){   //写一个方法进行调用，如果是属于新建则插入数据表并返回主页面，如果是修改，修改表中数据并返回主页面
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH：mm");
+        Date date = new Date(System.currentTimeMillis());
+        String time = simpleDateFormat.format(date);
+        Log.d("new_note", "isSave: "+time);
+        String title = ed_title.getText().toString();
+        String content = ed_content.getText().toString();
+        if(num!=0){
+            record=new Record(num, title, content, time);
+            rdDatabase.toUpdate(record);
+            Intent intent=new Intent(New_Record.this,MainActivity.class);
+            startActivity(intent);
+            New_Record.this.finish();
+        }
+        //新建日记
         else{
             record = new Record(title,content,time);
             rdDatabase.toInsert(record);
