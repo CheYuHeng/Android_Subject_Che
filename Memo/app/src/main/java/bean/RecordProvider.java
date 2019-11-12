@@ -15,15 +15,18 @@ import database.RecordOpenHelper;
 
 public class RecordProvider extends ContentProvider {
 
-    RecordOpenHelper rdOpenHelper;
+    private RecordOpenHelper rdOpenHelper;
 
-    private static final int MULTIPLE_RECORDS = 1;
-    private static final int SINGLE_RECORD = 2;
+    public static final int MULTIPLE_RECORDS = 0;
+    public static final int SINGLE_RECORD = 1;
+
+    public static final String AUTHORITY = "com.example.memo.provider";
+
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static{
-        uriMatcher.addURI(Record.AUTHORITY, Record.Rec.PATH_SINGLE, SINGLE_RECORD);
-        uriMatcher.addURI(Record.AUTHORITY, Record.Rec.PATH_MULTIPLE, MULTIPLE_RECORDS);
+        uriMatcher.addURI(AUTHORITY, "myrecord", MULTIPLE_RECORDS);
+        uriMatcher.addURI(AUTHORITY, "myrecord/#", SINGLE_RECORD);
     }
 
     public RecordProvider() {
@@ -84,7 +87,8 @@ public class RecordProvider extends ContentProvider {
     public boolean onCreate() {
         // TODO: Implement this to initialize your content provider on startup.
 //        SQLiteDatabase db = rdOpenHelper.getReadableDatabase();
-        return false;
+        rdOpenHelper = new RecordOpenHelper(getContext());
+        return true;
     }
 
     @Override
