@@ -43,11 +43,12 @@ public class RecordProvider extends ContentProvider {
                 count = db.delete(Record.Rec.TABLE_NAME, selection, selectionArgs);
                 break;
             case SINGLE_RECORD:
-                String whereClause = Record.Rec._ID + "=" + uri.getPathSegments().get(1);
-                count = db.delete(Record.Rec.TABLE_NAME, whereClause, selectionArgs);
+//                String whereClause = Record.Rec._ID + "=" + uri.getPathSegments().get(1);
+//                String whereClause = "'title' = ?";
+                count = db.delete(Record.Rec.TABLE_NAME, "'title' = ?", selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown Uri: " + uri);
+                throw new IllegalArgumentException("未知Uri: " + uri);
         }
         getContext().getContentResolver().notifyChange(uri,null);
         return count;
@@ -64,10 +65,9 @@ public class RecordProvider extends ContentProvider {
             case SINGLE_RECORD:
                 return Record.Rec.MINE_TYPE_SINGLE;
             default:
-                throw new IllegalArgumentException("UNKnown Uri: " + uri);
+                throw new IllegalArgumentException("未知Uri: " + uri);
 //            throw new UnsupportedOperationException("Not yet implemented");
         }
-
     }
 
     @Override
@@ -106,7 +106,7 @@ public class RecordProvider extends ContentProvider {
                 qb.appendWhere(Record.Rec._ID + "=" + uri.getPathSegments().get(1));
                 return qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
             default:
-                throw new IllegalArgumentException("Unknown Uri: " + uri);
+                throw new IllegalArgumentException("未知Uri: " + uri);
         }
 //        throw new UnsupportedOperationException("Not yet implemented");
     }
@@ -124,13 +124,14 @@ public class RecordProvider extends ContentProvider {
             case SINGLE_RECORD:
                 String segment = uri.getPathSegments().get(1);
                 count = db.update(Record.Rec.TABLE_NAME, values,
-                        Record.Rec._ID + "=" + segment, selectionArgs);
+                        "'title' = ?", selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown Uri: " + uri);
+                throw new IllegalArgumentException("未知Uri: " + uri);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
 //        throw new UnsupportedOperationException("Not yet implemented");
     }
+
 }

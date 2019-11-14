@@ -17,6 +17,9 @@ public class Record {
 
     public static abstract class Rec implements BaseColumns{
         public static final String TABLE_NAME = "myrecord";
+
+        public static final String COLUMN_NAME_NUM = "num";
+
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_CONTENT = "content";
         public static final String COLUMN_NAME_TIMES = "times";
