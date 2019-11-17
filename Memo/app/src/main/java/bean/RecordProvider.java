@@ -45,7 +45,7 @@ public class RecordProvider extends ContentProvider {
             case SINGLE_RECORD:
 //                String whereClause = Record.Rec._ID + "=" + uri.getPathSegments().get(1);
 //                String whereClause = "'title' = ?";
-                count = db.delete(Record.Rec.TABLE_NAME, "'title' = ?", selectionArgs);
+                count = db.delete(Record.Rec.TABLE_NAME, "'num' = ?", selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("未知Uri: " + uri);
@@ -124,7 +124,7 @@ public class RecordProvider extends ContentProvider {
             case SINGLE_RECORD:
                 String segment = uri.getPathSegments().get(1);
                 count = db.update(Record.Rec.TABLE_NAME, values,
-                        "'title' = ?", selectionArgs);
+                        "'num' = ?", selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("未知Uri: " + uri);

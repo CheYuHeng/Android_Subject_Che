@@ -2,6 +2,7 @@ package com.example.memo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -25,8 +26,9 @@ import java.util.regex.Pattern;
 import bean.Record;
 import database.RecordAdapter;
 import database.RecordDataBase;
+import fragment.ContentFragment;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     ListView listView;
     LayoutInflater layoutInflater;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity{
     RecordAdapter adapter;
     EditText search;
     Button newRecord;
+    Record record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity{
         listView = (ListView) findViewById(R.id.layout_listview);
 //        floatingActionButton = (FloatingActionButton) findViewById(R.id.add_record);
         newRecord = (Button) findViewById(R.id.new_record);
+//        refresh = (Button) findViewById(R.id.refresh);
         layoutInflater = getLayoutInflater();
 
         search = (EditText) findViewById(R.id.search);
@@ -57,13 +61,28 @@ public class MainActivity extends AppCompatActivity{
 
         search.addTextChangedListener(new result());
 
+//        refresh.setOnClickListener(Refresh);
+
+
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {   //点击一下跳转到编辑页面（编辑页面与新建页面共用一个布局）
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(),New_Record.class);
-                intent.putExtra("num",arrayList.get(position).getNum());
-                startActivity(intent);
-                MainActivity.this.finish();
+
+                try{
+                    ContentFragment contentfragment = (ContentFragment) getSupportFragmentManager()
+                            .findFragmentById(R.id.new_record);
+                    contentfragment.refresh(record.getTitle(),record.getContent());
+
+                }catch(Exception e) {
+                    e.printStackTrace();
+                    Intent intent = new Intent(getApplicationContext(), New_Record.class);
+                    intent.putExtra("num", arrayList.get(position).getNum());
+                    startActivity(intent);
+                    MainActivity.this.finish();
+                }
             }
         });
 
@@ -92,7 +111,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-
 //        floatingActionButton.setOnClickListener(new View.OnClickListener() {   //点击悬浮按钮时，跳转到新建页面
 //            @Override
 //            public void onClick(View v) {
@@ -111,6 +129,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
     }
+
 
 
     @Override
@@ -167,12 +186,13 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
 
-            listView = (ListView) findViewById(R.id.layout_listview);
-            listView.setAdapter(adapter);
 
             arrayList = rdDatabase.getArray();
 
             adapter = new RecordAdapter(getApplicationContext(), we);
+            listView.setAdapter(adapter);
+
+            listView = (ListView) findViewById(R.id.layout_listview);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {   //点击一下跳转到编辑页面（编辑页面与新建页面共用一个布局）
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -182,7 +202,6 @@ public class MainActivity extends AppCompatActivity{
                     MainActivity.this.finish();
                 }
             });
-
         }
     }
 
