@@ -3,19 +3,21 @@ package bean;
 import android.graphics.Bitmap;
 
 public class Music {
-    public String title;
-    public String artist;
-    public int duration;
-    public String album;
-    public Bitmap albumbtm;
-    public String url;
+    private String title;
+    private String artist;
+    private String duration;
+    private String data;
+    private String size;
 
-    public String getUrl() {
-        return url;
+    public Music() {
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public Music(String title, String artist, String duration, String data, String size) {
+        this.title = title;
+        this.artist = artist;
+        this.duration = duration;
+        this.data = data;
+        this.size = size;
     }
 
     public String getTitle() {
@@ -34,27 +36,39 @@ public class Music {
         this.artist = artist;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 
-    public String getAlbum() {
-        return album;
+    public String getData() {
+        return data;
     }
 
-    public void setAlbum(String album) {
-        this.album = album;
+    public void setData(String data) {
+        this.data = data;
     }
 
-    public Bitmap getAlbumbtm() {
-        return albumbtm;
+    public String getSize() {
+        return size;
     }
 
-    public void setAlbumbtm(Bitmap albumbtm) {
-        this.albumbtm = albumbtm;
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    @Override
+    public String toString() {
+        return "Music{" +
+                "title='" + title + '\'' +
+                ", artist='" + artist + '\'' +
+                ", duration='" + duration + '\'' +
+                ", data='" + data + '\'' +
+                ", size='" + size + '\'' +
+                '}';
     }
 }
+
