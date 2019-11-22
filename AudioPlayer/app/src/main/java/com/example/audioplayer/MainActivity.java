@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -31,34 +32,57 @@ import bean.Music;
 
 public class MainActivity extends AppCompatActivity{
 
-    public Music music;
     ListView myMusic;
-    List<Music> music_list;
+    List<Music> lists;
+    MediaPlayer mediaPlayer;
+    int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        myMusic = (ListView) findViewById(R.id.myMusic);
-
-        ScannerMusic();
+        mediaPlayer = new MediaPlayer();
 
     }
 
-    public void ScannerMusic(){
 
-        ContentResolver cr = getApplication().getContentResolver();
-        Cursor cursor = cr.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null,
-                null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
-        if(cursor.moveToFirst()){
-            while(cursor.moveToNext()){//遍历数据表中的数据
-                String musicTitle = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
-                Log.d("MainActivity","音乐标题:" + musicTitle);
-            }
-            cursor.close();
+    public void click(View view) {
+
+        switch (view.getId()){
+            case R.id.button_start:
+                mediaPlayer.start();
+                break;
+
+            case R.id.button_pause:
+                mediaPlayer.pause();
+                break;
+
+            case R.id.button_last:
+                index--;
+                mediaPlayer.reset();
+                try {
+                    mediaPlayer.setDataSource(lists.get(index).getData());
+
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case R.id.button_next:
+                index++;
+                mediaPlayer.reset();
+                try {
+                    mediaPlayer.setDataSource(lists.get(index).getData());
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
-    }
 
+    }
 
 }
