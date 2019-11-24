@@ -39,13 +39,15 @@ import bean.Music;
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MainActivity";
-    List<Music> lists;
-    MusicAdapter adapter;
-    ListView listView;
-    MediaPlayer mediaPlayer;
-    SeekBar seek;
-    Timer timer = new Timer();
-    int index = 0;
+    private List<Music> lists;
+    private MusicAdapter adapter;
+    private ListView listView;
+    private MediaPlayer mediaPlayer;
+    private SeekBar seek;
+    private Timer timer = new Timer();
+    private int index = 0;
+    private TextView progressTime;
+    private SimpleDateFormat time = new SimpleDateFormat("mm:ss");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,10 @@ public class MainActivity extends AppCompatActivity{
         seek = findViewById(R.id.seek);
         listView = findViewById(R.id.listView);
 
+        progressTime = (TextView) findViewById(R.id.time);
         seek.setProgress(0);
         mediaPlayer = new MediaPlayer();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},1);
         }
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if (b == true){
-                    mediaPlayer.seekTo(i);
+                    mediaPlayer.seekTo(seekBar.getProgress());
                 }
             }
 
@@ -100,14 +104,41 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                seek.setProgress(mediaPlayer.getCurrentPosition());
-            }
-        },0,1000);
 
+
+        new Thread(new Runnable(){
+
+            @Override
+            public void run(){
+                while(true){
+                    try{
+                        Thread.sleep(100);
+                    }catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
+                    handler.obtainMessage(123).sendToTarget();
+                }
+            }
+        }).start();
     }
+
+
+    public Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            super.handleMessage(msg);
+            switch(msg.what){
+                case 123:
+                    progressTime.setText(time.format(mediaPlayer.getCurrentPosition()));
+                    seek.setMax(mediaPlayer.getDuration());
+                    seek.setProgress(mediaPlayer.getCurrentPosition());
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
 
 
     public void click(View view) {
@@ -147,6 +178,15 @@ public class MainActivity extends AppCompatActivity{
                 break;
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
     }
 
 }
