@@ -24,6 +24,10 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/music_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="上一首"
+            android:text="上首"
             android:textSize="25dp"
             android:onClick="click"/>
 
@@ -62,10 +66,36 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="下一首"
+            android:text="下首"
             android:textSize="25dp"
             android:onClick="click"/>
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioGroup
+            android:id="@+id/RadioGroup_Player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/single_cycle"
+                android:layout_width="wrap_content"
+                android:layout_height="100px"
+                android:text="单曲循环"/>
+            <RadioButton
+                android:id="@+id/sequence"
+                android:layout_width="wrap_content"
+                android:layout_height="100px"
+                android:text="顺序播放"/>
+            <RadioButton
+                android:id="@+id/random"
+                android:layout_width="wrap_content"
+                android:layout_height="100px"
+                android:text="随机播放"/>
+        </RadioGroup>
     </LinearLayout>
 
 </LinearLayout>

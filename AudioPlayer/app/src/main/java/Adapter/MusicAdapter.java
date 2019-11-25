@@ -10,11 +10,13 @@ import com.example.audioplayer.R;
 
 import java.util.List;
 
+import Util.MusicUtil;
 import bean.Music;
 
 public class MusicAdapter extends BaseAdapter {
     private List<Music> lists;
     private Context context;
+    public Music music;
 
     public MusicAdapter(List<Music> list, Context context) {
         this.lists = list;
@@ -50,8 +52,10 @@ public class MusicAdapter extends BaseAdapter {
         }else {
             holder = (ViewHolder) view.getTag();
         }
+
         holder.text_title.setText(lists.get(i).getTitle());
         holder.text_duration.setText(lists.get(i).getDuration());
+//        holder.text_duration.setText(MusicUtil.formatTime(Long.parseLong(music.getDuration())));
         holder.text_artist.setText(lists.get(i).getArtist());
         return view;
     }

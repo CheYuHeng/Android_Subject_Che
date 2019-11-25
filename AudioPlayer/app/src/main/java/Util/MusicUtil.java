@@ -27,6 +27,8 @@ public class MusicUtil {
                 String size = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
                 Music music = new Music(title, artist, duration, data, size);
                 lists.add(music);
+//                formatTime(Long.parseLong(MediaStore.Audio.Media.DURATION));
+
             }
             cursor.close();
             return lists;
@@ -34,5 +36,26 @@ public class MusicUtil {
 
         return null;
 
+    }
+
+    public static String formatTime(long time) {
+        // TODO Auto-generated method stub
+        String min = time / (1000 * 60) + "";
+        String sec = time % (1000 * 60) + "";
+        if (min.length() < 2) {
+            min = "0" + time / (1000 * 60) + "";
+        } else {
+            min = time / (1000 * 60) + "";
+        }
+        if (sec.length() == 4) {
+            sec = "0" + (time % (1000 * 60)) + "";
+        } else if (sec.length() == 3) {
+            sec = "00" + (time % (1000 * 60)) + "";
+        } else if (sec.length() == 2) {
+            sec = "000" + (time % (1000 * 60)) + "";
+        } else if (sec.length() == 1) {
+            sec = "0000" + (time % (1000 * 60)) + "";
+        }
+        return min + ":" + sec.trim().substring(0, 2);
     }
 }
