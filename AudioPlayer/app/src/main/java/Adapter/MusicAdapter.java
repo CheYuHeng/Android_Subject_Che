@@ -23,6 +23,7 @@ public class MusicAdapter extends BaseAdapter {
         this.context = context;
     }
 
+    //返回要显示的item的数量
     @Override
     public int getCount() {
         return lists.size();
@@ -54,8 +55,7 @@ public class MusicAdapter extends BaseAdapter {
         }
 
         holder.text_title.setText(lists.get(i).getTitle());
-        holder.text_duration.setText(lists.get(i).getDuration());
-//        holder.text_duration.setText(MusicUtil.formatTime(Long.parseLong(music.getDuration())));
+        holder.text_duration.setText(MusicUtil.formatTime(Long.parseLong(lists.get(i).getDuration())));
         holder.text_artist.setText(lists.get(i).getArtist());
         return view;
     }

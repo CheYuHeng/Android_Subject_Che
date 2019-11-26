@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity{
     private SimpleDateFormat time = new SimpleDateFormat("mm:ss");
 
     public int total_length;
-    public int flag;
 
     public Random ran;
 
@@ -82,11 +81,18 @@ public class MainActivity extends AppCompatActivity{
 
         musicTitle = findViewById(R.id.music_title);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},1);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        requestPermissions(new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE
+        },1);
+//        }
 
+
+
+        //时间轴相关的属性设置
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            //获得用户操作的通知
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if (b == true){
@@ -94,11 +100,13 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
 
+            //进度条开始被拖动时调用
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
+            //进度条停止拖动时调用
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
@@ -108,13 +116,11 @@ public class MainActivity extends AppCompatActivity{
         lists = new MusicUtil().getMusic(this);
         Log.i(TAG, "lists：" + lists);
         Log.i(TAG, "lists的长度：" + lists.size());
-
         total_length = lists.size();
-
-
         adapter = new MusicAdapter(lists, this);
         listView.setAdapter(adapter);
 
+        //点击列表中的歌曲，开始播放对应的歌曲，并显示歌曲名
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -122,6 +128,7 @@ public class MainActivity extends AppCompatActivity{
                 Log.d(TAG,"index的长度：" + index);
                 seek.setProgress(0);
                 mediaPlayer.reset();
+                musicTitle.setText(lists.get(i).getTitle());
                 try {
                     seek.setMax(Integer.parseInt(lists.get(i).getDuration()));
                     mediaPlayer.setDataSource(lists.get(i).getData());
@@ -143,62 +150,10 @@ public class MainActivity extends AppCompatActivity{
                     }catch(InterruptedException e){
                         e.printStackTrace();
                     }
-                    handler.obtainMessage(123).sendToTarget();
+                    handler.obtainMessage(1).sendToTarget();
                 }
             }
         }).start();
-
-
-//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {   //长按删除
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//                new AlertDialog.Builder(MainActivity.this)
-//                        .setMessage("确定要删除本条记录？")
-//                        .setNegativeButton("取消",new DialogInterface.OnClickListener(){
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//
-//                            }
-//                        })
-//                        .setPositiveButton("确定",new DialogInterface.OnClickListener(){
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-////                                rdDatabase.toDelete(arrayList.get(position).getNum());
-//                                adapter = new MusicAdapter(lists, getApplicationContext());
-//                                listView.setAdapter(adapter);
-//                            }
-//                        })
-//                        .create()
-//                        .show();
-//                return true;
-//            }
-//        });
-
-//        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//            @Override
-//            public void onCompletion(MediaPlayer mp) {
-//                //单曲循环
-//                if(single_cycle.isChecked()){
-//                    mediaPlayer.setLooping(true);
-//                }
-//
-//                //顺序播放
-//                if(sequence.isChecked()){
-//                    mediaPlayer.reset();
-//
-//                    mediaPlayer.start();
-//                }
-//
-//                //随机播放
-//                if(random.isChecked()){
-//                    mediaPlayer.reset();
-//                    int r = ran.nextInt(total_length);
-//                    mediaPlayer.setDataSource();
-//                    mediaPlayer.start();
-//                }
-//            }
-//        });
-
     }
 
 
@@ -207,7 +162,7 @@ public class MainActivity extends AppCompatActivity{
         public void handleMessage(Message msg){
             super.handleMessage(msg);
             switch(msg.what){
-                case 123:
+                case 1:
                     progressTime.setText(time.format(mediaPlayer.getCurrentPosition()));
                     seek.setMax(mediaPlayer.getDuration());
                     seek.setProgress(mediaPlayer.getCurrentPosition());
@@ -218,12 +173,8 @@ public class MainActivity extends AppCompatActivity{
         }
     };
 
-    public void AutomaticPlay(){
 
-    }
-
-
-    //各种按钮点击
+    //按钮点击事件处理
     public void click(View view) {
 
         //单曲循环
@@ -239,6 +190,7 @@ public class MainActivity extends AppCompatActivity{
                     if(index == total_length - 1){
                         index = 0;
                         mediaPlayer.reset();
+                        musicTitle.setText(lists.get(index).getTitle());
                         try {
                             mediaPlayer.setDataSource(lists.get(index).getData());
                             mediaPlayer.prepare();
@@ -249,8 +201,8 @@ public class MainActivity extends AppCompatActivity{
                     }
                     else {
                             index++;
-                            Log.d(TAG, "index的长度（下）：" + index);
                             mediaPlayer.reset();
+                            musicTitle.setText(lists.get(index).getTitle());
                             try {
                                 mediaPlayer.setDataSource(lists.get(index).getData());
                                 mediaPlayer.prepare();
@@ -265,24 +217,35 @@ public class MainActivity extends AppCompatActivity{
 
         //随机播放
         if(random.isChecked()){
-//            mediaPlayer.reset();
-//            int r = ran.nextInt(total_length);
-//            Log.d(TAG,"r的随机值:" + r);
-//            try {
-//                mediaPlayer.setDataSource(lists.get(r).getData());
-//                mediaPlayer.prepare();
-//                mediaPlayer.start();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+//                    mediaPlayer.reset();
+                    ran = new Random();
+                    int r = ran.nextInt(total_length);
+                    Log.d(TAG,"r的值:" + r);
+                    index = r;
+                    mediaPlayer.reset();
+                    musicTitle.setText(lists.get(index).getTitle());
+                    try {
+                        mediaPlayer.setDataSource(lists.get(index).getData());
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
         switch (view.getId()){
+
+            //点击播放按钮
             case R.id.button_start:
                 mediaPlayer.start();
                 break;
 
+            //点击暂停按钮
             case R.id.button_pause:
                 mediaPlayer.pause();
                 break;
@@ -293,6 +256,7 @@ public class MainActivity extends AppCompatActivity{
                 if(index == 0){
                     index = total_length - 1;
                     mediaPlayer.reset();
+                    musicTitle.setText(lists.get(index).getTitle());
                     try {
                         mediaPlayer.setDataSource(lists.get(index).getData());
                         mediaPlayer.prepare();
@@ -307,6 +271,7 @@ public class MainActivity extends AppCompatActivity{
                 Log.d(TAG,"index的长度（上）：" + index);
                 Log.d(TAG,"total_length: " + total_length);
                 mediaPlayer.reset();
+                musicTitle.setText(lists.get(index).getTitle());
                 try {
                     mediaPlayer.setDataSource(lists.get(index).getData());
 
@@ -323,6 +288,7 @@ public class MainActivity extends AppCompatActivity{
                 if(index == total_length - 1){
                     index = 0;
                     mediaPlayer.reset();
+                    musicTitle.setText(lists.get(index).getTitle());
                     try {
                         mediaPlayer.setDataSource(lists.get(index).getData());
                         mediaPlayer.prepare();
@@ -333,17 +299,18 @@ public class MainActivity extends AppCompatActivity{
                     break;
                 }
 
-                index ++;
-                Log.d(TAG,"index的长度（下）：" + index);
-                mediaPlayer.reset();
-                try {
-                    mediaPlayer.setDataSource(lists.get(index).getData());
-                    mediaPlayer.prepare();
-                    mediaPlayer.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
+            index ++;
+            Log.d(TAG,"index的长度（下）：" + index);
+            mediaPlayer.reset();
+            musicTitle.setText(lists.get(index).getTitle());
+            try {
+                mediaPlayer.setDataSource(lists.get(index).getData());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            break;
         }
 
     }

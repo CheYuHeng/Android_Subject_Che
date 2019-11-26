@@ -28,7 +28,6 @@ public class MusicUtil {
                 Music music = new Music(title, artist, duration, data, size);
                 lists.add(music);
 //                formatTime(Long.parseLong(MediaStore.Audio.Media.DURATION));
-
             }
             cursor.close();
             return lists;
@@ -40,6 +39,7 @@ public class MusicUtil {
 
     public static String formatTime(long time) {
         // TODO Auto-generated method stub
+
         String min = time / (1000 * 60) + "";
         String sec = time % (1000 * 60) + "";
         if (min.length() < 2) {
