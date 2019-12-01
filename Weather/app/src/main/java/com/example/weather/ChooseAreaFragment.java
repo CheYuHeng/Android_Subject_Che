@@ -30,6 +30,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class ChooseAreaFragment extends Fragment {
+
     private static final String TAG = "ChooseAreaFragment";
 
     public static final int LEVEL_PROVINCE = 0;
@@ -50,34 +51,22 @@ public class ChooseAreaFragment extends Fragment {
 
     private List<String> dataList = new ArrayList<>();
 
-    /**
-     * 省列表
-     */
+    //省列表
     private List<Province> provinceList;
 
-    /**
-     * 市列表
-     */
+    //城市列表
     private List<City> cityList;
 
-    /**
-     * 县列表
-     */
+    //县列表
     private List<County> countyList;
 
-    /**
-     * 选中的省份
-     */
+    //所选省
     private Province selectedProvince;
 
-    /**
-     * 选中的城市
-     */
+    //所选城市
     private City selectedCity;
 
-    /**
-     * 当前选中的级别
-     */
+    //所选城市级别
     private int currentLevel;
 
 
@@ -234,13 +223,12 @@ public class ChooseAreaFragment extends Fragment {
         });
     }
 
-    /**
-     * 显示进度对话框
-     */
+    //进度对话框
     private void showProgressDialog() {
 
     }
 
+    //关闭对话框
     private void closeProgressDialog() {
 
     }
