@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp">
+    <!--天气时间-->
+    <TextView
+        android:id="@+id/data_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:textColor="#fff"/>
+    <!--风向-->
+    <TextView
+        android:id="@+id/wind_dir"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="#fff"/>
+    <!--白天天气描述-->
+    <TextView
+        android:id="@+id/cond_day"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:textColor="#fff"/>
+    <!--夜晚天气描述-->
+    <TextView
+        android:id="@+id/cond_night"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:textColor="#fff"/>
+</LinearLayout>
