@@ -19,6 +19,20 @@
             <include layout="@layout/forecast"/>
             <include layout="@layout/aqi"/>
             <include layout="@layout/lifestyle"/>
+            <Button
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:text="刷新"
+                />
+            <Button
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:text="返回"
+                />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
