@@ -2,10 +2,12 @@ package com.example.weathershow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -73,9 +75,13 @@ public class WeatherActivity extends AppCompatActivity {
         refresh.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                initView();
+//                Intent intent = new Intent(getApplicationContext(), WeatherActivity.class);
+//                startActivity(intent);
                 Toast.makeText(WeatherActivity.this,"数据刷新成功",
                         Toast.LENGTH_SHORT).show();
+                requestWeather(mWeatherId);
+                Log.d(TAG,"mWeatherId的值是_2:" + mWeatherId);
+                initView();
             }
         });
 
@@ -120,6 +126,7 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.putString("weather",responseText);
                             editor.apply();
                             mWeatherId = weather.basic.weatherId;
+                            Log.d(TAG,"mWeatherId的值是_1:" + mWeatherId);
                             showWeatherInfo(weather);
                         } else {
                             Toast.makeText(WeatherActivity.this,"无法获取天气信息",

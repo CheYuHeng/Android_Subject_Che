@@ -201,7 +201,7 @@ public class ChooseAreaFragment extends Fragment {
      * 根据传入的地址和类型从服务器上查询省市县数据。
      */
     private void queryFromServer(String address, final String type) {
-        showProgressDialog();
+//        showProgressDialog();
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -218,7 +218,7 @@ public class ChooseAreaFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            closeProgressDialog();
+//                            closeProgressDialog();
                             if ("province".equals(type)) {
                                 queryProvinces();
                             } else if ("city".equals(type)) {
@@ -237,22 +237,22 @@ public class ChooseAreaFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        closeProgressDialog();
-                        Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
+//                        closeProgressDialog();
+                        Toast.makeText(getContext(), "城市加载失败", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
 
-    /**
-     * 显示进度对话框
-     */
-    private void showProgressDialog() {
-
-    }
-
-    private void closeProgressDialog() {
-
-    }
+//    /**
+//     * 显示进度对话框
+//     */
+//    private void showProgressDialog() {
+//
+//    }
+//
+//    private void closeProgressDialog() {
+//
+//    }
 }
