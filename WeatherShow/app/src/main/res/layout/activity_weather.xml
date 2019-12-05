@@ -15,24 +15,54 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <include layout="@layout/title"/>
-            <include layout="@layout/now"/>
-            <include layout="@layout/forecast"/>
-            <include layout="@layout/aqi"/>
-            <include layout="@layout/lifestyle"/>
-            <Button
-                android:id="@+id/refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:text="刷新"
-                />
-            <Button
+            <include layout="@layout/basic"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:text="返回"
-                />
+                android:layout_weight="1"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:backgroundTint="@color/button"
+                android:layout_margin="35dp"
+                android:src="@drawable/home"
+                android:scaleType="centerCrop" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="35dp"
+                android:backgroundTint="@color/button"
+                android:scaleType="centerCrop"
+                android:src="@drawable/refresh" />
+        </LinearLayout>
+
+
+<!--            <Button-->
+<!--                android:id="@+id/refresh"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="top|end"-->
+<!--                android:text="刷新"-->
+<!--                />-->
+<!--            <Button-->
+<!--                android:id="@+id/back"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="top|end"-->
+<!--                android:text="返回"-->
+<!--                />-->
+<!--            <include layout="@layout/now"/>-->
+            <include layout="@layout/forecast"/>
+<!--            <include layout="@layout/aqi"/>-->
+            <include layout="@layout/lifestyle"/>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

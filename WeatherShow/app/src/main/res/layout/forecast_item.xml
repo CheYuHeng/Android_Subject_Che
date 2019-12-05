@@ -22,21 +22,31 @@
         android:gravity="center"
         android:textColor="#fff"/>
     <!--白天天气描述-->
-    <TextView
-        android:id="@+id/cond_day"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="right"
-        android:textColor="#fff"/>
+<!--    <TextView-->
+<!--        android:id="@+id/cond_day"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_weight="1"-->
+<!--        android:gravity="right"-->
+<!--        android:textColor="#fff"/>-->
     <!--夜晚天气描述-->
-    <TextView
-        android:id="@+id/cond_night"
-        android:layout_width="0dp"
+<!--    <TextView-->
+<!--        android:id="@+id/cond_night"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_weight="1"-->
+<!--        android:gravity="right"-->
+<!--        android:textColor="#fff"/>-->
+
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="right"
-        android:textColor="#fff"/>
+        android:id="@+id/day"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/night"/>
 </LinearLayout>

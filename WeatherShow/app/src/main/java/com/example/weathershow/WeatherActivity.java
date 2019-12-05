@@ -2,34 +2,35 @@ package com.example.weathershow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.weathershow.gson.Lifestyle;
+import com.example.weathershow.service.AutoUpdateService;
 import com.example.weathershow.util.HttpUtil;
 import com.example.weathershow.util.Utility;
 
 import com.example.weathershow.gson.Weather;
 import com.example.weathershow.gson.Forecast;
 //import com.example.weathershow.gson.AQI;
-import com.example.weathershow.gson.Basic;
-import com.example.weathershow.util.HttpUtil;
-import com.example.weathershow.util.Utility;
 import com.example.weathershow.gson.Now;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.Response;
 import okhttp3.Call;
@@ -45,6 +46,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView weatherInfoText;  //天气概况
     private LinearLayout forecastLayout;
     private LinearLayout lifestyleLayout;
+//    private LinearLayout nowLayout;
     private TextView aqiText;
     private TextView pm25Text;
     private TextView comfortText;
@@ -52,16 +54,23 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView sportText;
     public String mWeatherId;
 
-    public Button back;
-    public Button refresh;
+    public FloatingActionButton back;
+    public FloatingActionButton refresh;
+
+    public Now now;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
-        back = (Button) findViewById(R.id.back);
-        refresh = (Button) findViewById(R.id.refresh);
+//        back = (Button) findViewById(R.id.back);
+//        refresh = (Button) findViewById(R.id.refresh);
+
+        back = (FloatingActionButton) findViewById(R.id.back);
+        refresh = (FloatingActionButton) findViewById(R.id.refresh);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +111,10 @@ public class WeatherActivity extends AppCompatActivity {
         weatherLayout.setVisibility(View.INVISIBLE);
         requestWeather(weatherId);
 //        }
+
+        timer.schedule(mTimerTask,5000,10000);
+
+
     }
 
     /*根据天气ID请求天气信息*/
@@ -128,6 +141,12 @@ public class WeatherActivity extends AppCompatActivity {
                             mWeatherId = weather.basic.weatherId;
                             Log.d(TAG,"mWeatherId的值是_1:" + mWeatherId);
                             showWeatherInfo(weather);
+
+
+
+
+
+
                         } else {
                             Toast.makeText(WeatherActivity.this,"无法获取天气信息",
                                     Toast.LENGTH_SHORT).show();
@@ -166,13 +185,78 @@ public class WeatherActivity extends AppCompatActivity {
             View view = LayoutInflater.from(this).inflate(R.layout.forecast_item,forecastLayout,false);
             TextView dateText = (TextView) view.findViewById(R.id.data_text);
             TextView Wind_Inf = (TextView) view.findViewById(R.id.wind_dir);
-            TextView Day_Inf = (TextView) view.findViewById(R.id.cond_day);
-            TextView Night_Inf = (TextView) view.findViewById(R.id.cond_night);
+//            TextView Day_Inf = (TextView) view.findViewById(R.id.cond_day);
+//            TextView Night_Inf = (TextView) view.findViewById(R.id.cond_night);
             dateText.setText(forecast.date);
             Wind_Inf.setText(forecast.windDir);
-            Day_Inf.setText(forecast.condDay);
-            Night_Inf.setText(forecast.condNight);
+//            Day_Inf.setText(forecast.condDay);
+//            Night_Inf.setText(forecast.condNight);
             forecastLayout.addView(view);
+
+            ImageView img_day = (ImageView) view.findViewById(R.id.day);
+            ImageView img_night = (ImageView) view.findViewById(R.id.night);
+
+            Log.d(TAG,"获取forecast.condDay:" + forecast.condDay);
+            Log.d(TAG,"获取forecast.condNight:" + forecast.condNight);
+
+            if(forecast.condDay.equals("晴")){
+                img_day.setImageDrawable(getResources().getDrawable(R.drawable.sun));
+            }
+            else if(forecast.condDay.equals("多云")){
+                img_day.setImageDrawable(getResources().getDrawable(R.drawable.duo_yun));
+            }
+            else if(forecast.condDay.equals("阴")){
+                img_day.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
+            }
+            else if(forecast.condDay.equals("小雨")){
+                img_day.setImageDrawable(getResources().getDrawable(R.drawable.light_rain));
+            }
+            else if(forecast.condDay.equals("中雨")){
+                img_day.setImageDrawable(getResources().getDrawable(R.drawable.zhong_yu));
+            }
+            else if(forecast.condDay.equals("大雨")){
+                img_day.setImageDrawable(getResources().getDrawable(R.drawable.da_yu));
+            }
+            else if(forecast.condDay.equals("暴雨")){
+                img_day.setImageDrawable(getResources().getDrawable(R.drawable.bao_yu));
+            }
+            else if(forecast.condDay.equals("阵雨")){
+                img_day.setImageDrawable(getResources().getDrawable(R.drawable.zhong_yu));
+            }
+
+
+
+            if(forecast.condNight.equals("晴")){
+                img_night.setImageDrawable(getResources().getDrawable(R.drawable.sun));
+            }
+            else if(forecast.condNight.equals("多云")){
+                img_night.setImageDrawable(getResources().getDrawable(R.drawable.duo_yun));
+            }
+            else if(forecast.condNight.equals("阴")){
+                img_night.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
+            }
+            else if(forecast.condNight.equals("小雨")){
+                img_night.setImageDrawable(getResources().getDrawable(R.drawable.light_rain));
+            }
+            else if(forecast.condNight.equals("中雨")){
+                img_night.setImageDrawable(getResources().getDrawable(R.drawable.zhong_yu));
+            }
+            else if(forecast.condNight.equals("大雨")){
+                img_night.setImageDrawable(getResources().getDrawable(R.drawable.da_yu));
+            }
+            else if(forecast.condNight.equals("暴雨")){
+                img_night.setImageDrawable(getResources().getDrawable(R.drawable.bao_yu));
+            }
+            else if(forecast.condDay.equals("阵雨")){
+                img_night.setImageDrawable(getResources().getDrawable(R.drawable.zhong_yu));
+            }
+
+
+
+
+            Log.d(TAG,"白天天气：" + forecast.condDay);
+            Log.d(TAG,"夜晚天气：" + forecast.condNight);
+
         }
 
         //获取有关生活建议方面的信息，例如舒适度指数等
@@ -188,19 +272,33 @@ public class WeatherActivity extends AppCompatActivity {
             lifestyleLayout.addView(view);
         }
 
-//        if (weather.aqi != null){
-//            aqiText.setText(weather.aqi.city.aqi);
-//            pm25Text.setText(weather.aqi.city.pm25);
-//        }
-//        String comfort = "舒适度：" +weather.suggestion.comfort.info;
-//        String carWash = " 洗车指数：" +weather.suggestion.carWash.info;
-//        String sport = "运动建议：" +weather.suggestion.sport.info;
-//        comfortText.setText(comfort);
-//        carWashText.setText(carWash);
-//        sportText.setText(sport);
-
         weatherLayout.setVisibility(View.VISIBLE);
+
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
+
+
     }
+
+    public Timer timer = new Timer();
+
+    private TimerTask mTimerTask = new TimerTask() {
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(WeatherActivity.this,"(自动)数据刷新成功",
+                            Toast.LENGTH_SHORT).show();
+                    requestWeather(mWeatherId);
+                    initView();
+                }
+            });
+        }
+    };
+
+
+
 
     //初始化控件
     private void initView() {
@@ -212,6 +310,8 @@ public class WeatherActivity extends AppCompatActivity {
         forecastLayout = (LinearLayout)findViewById(R.id.forecast_layout);
 
         lifestyleLayout = (LinearLayout)findViewById(R.id.lifestyle_layout);
+
+//        nowLayout = (LinearLayout)findViewById(R.id.now_layout);
 
         aqiText = (TextView)findViewById(R.id.aqi_text);
         pm25Text = (TextView)findViewById(R.id.pm25_text);
