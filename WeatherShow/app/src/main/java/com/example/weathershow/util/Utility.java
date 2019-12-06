@@ -16,10 +16,10 @@ import com.example.weathershow.gson.Weather;
 public class Utility {
     //解析处理服务器返回的省级数据
     public static boolean handleProvinceResponse(String response) {
-        if (!TextUtils.isEmpty(response)) {
+        if (!TextUtils.isEmpty(response)) {                 //非空
             try {
                 JSONArray allProvinces = new JSONArray(response);
-                for (int i = 0; i < allProvinces.length(); i++) {
+                for (int i = 0; i < allProvinces.length(); i++) {   //获取所有的省份信息
                     JSONObject provinceObject = allProvinces.getJSONObject(i);
                     Province province = new Province();
                     province.setProvinceName(provinceObject.getString("name"));
@@ -38,14 +38,14 @@ public class Utility {
     public static boolean handleCityResponse(String response, int provinceId) {
         if (!TextUtils.isEmpty(response)) {
             try {
-                JSONArray allCities = new JSONArray(response);
-                for (int i = 0; i < allCities.length(); i++) {
-                    JSONObject cityObject = allCities.getJSONObject(i);
+                JSONArray allCities = new JSONArray(response);  //解析数据
+                for (int i = 0; i < allCities.length(); i++) {  //获取某省中所有的城市信息
+                    JSONObject cityObject = allCities.getJSONObject(i); //解析数据
                     City city = new City();
                     city.setCityName(cityObject.getString("name"));
                     city.setCityCode(cityObject.getInt("id"));
                     city.setProvinceId(provinceId);
-                    city.save();
+                    city.save();            //将数据存储在数据库中
                 }
                 return true;
             } catch (JSONException e) {
@@ -60,7 +60,7 @@ public class Utility {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONArray allCounties = new JSONArray(response);
-                for (int i = 0; i < allCounties.length(); i++) {
+                for (int i = 0; i < allCounties.length(); i++) {        //获取某市中所有的县的信息
                     JSONObject countyObject = allCounties.getJSONObject(i);
                     County county = new County();
                     county.setCountyName(countyObject.getString("name"));
